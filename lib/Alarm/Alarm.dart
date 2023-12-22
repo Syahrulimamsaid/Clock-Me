@@ -1,6 +1,7 @@
 import 'dart:isolate';
 
 import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
+import 'package:clock_me/Alarm/AddAlarm.dart';
 import 'package:clock_me/Alarm/DatabaseAlarm/AlarmDb.dart';
 import 'package:clock_me/Alarm/DatabaseAlarm/AlarmModel.dart';
 import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
@@ -147,7 +148,14 @@ class _AlarmPageState extends State<AlarmPage> {
                               await Navigator.push(
                                 context,
                                 MaterialPageRoute(
-                                    builder: (context) => DetailAlarm()),
+                                    builder: (context) => AddAlarmPage(
+                                          StatusAdd: false,
+                                          Id: data.id,
+                                          Title: data.name,
+                                          Days: data.days,
+                                          Hours: int.parse(data.hour),
+                                          Minutes: int.parse(data.minutes),
+                                        )),
                               );
                             },
                             OnLongPress: () async {

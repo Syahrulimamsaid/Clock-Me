@@ -190,7 +190,7 @@ class _HomePageState extends State<HomePage> {
 
   void ToAdd() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddAlarmPage()));
+        context, MaterialPageRoute(builder: (context) => AddAlarmPage(StatusAdd: true,)));
     setState(() {
       SelectIndex = 0;
       print('Yes');

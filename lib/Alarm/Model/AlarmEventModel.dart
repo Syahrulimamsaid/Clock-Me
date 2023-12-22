@@ -17,6 +17,7 @@ class AlarmEvent extends StatefulWidget {
   bool isSwitched;
   final VoidCallback OnTap;
   final VoidCallback OnLongPress;
+
   AlarmEvent(
       {required this.Title,
       required this.Days,
@@ -39,6 +40,14 @@ class AlarmEvent extends StatefulWidget {
 class _AlarmEventState extends State<AlarmEvent> {
   final AlarmQueryExecute = AlarmQuery();
   String day = '';
+
+  String sun = '';
+  String mon = '';
+  String tue = '';
+  String wed = '';
+  String thu = '';
+  String fri = '';
+  String sat = '';
 
   void UpdateData(int id, String name, String hour, String minutes, String days,
       String status) async {
@@ -73,8 +82,27 @@ class _AlarmEventState extends State<AlarmEvent> {
     setState(() {
       if (isDateFormat(widget.Days, 'yyyy-MM-dd')) {
         day = 'Tomorrow-' + FormatDate(DateTime.parse(widget.Days));
-      } else {
+      } else if (widget.Days == 'Every Day') {
         day = widget.Days;
+      } else {
+        List<String> hariView = widget.Days.split(' ');
+        for (String namaHari in hariView) {
+          (namaHari == "Sun")
+              ? sun = 'Sun'
+              : (namaHari == "Mon")
+                  ? mon = 'Mon'
+                  : (namaHari == "Tue")
+                      ? tue = 'Tue'
+                      : (namaHari == "Wed")
+                          ? wed = 'Wed'
+                          : (namaHari == "Thu")
+                              ? thu = 'Thu'
+                              : (namaHari == "Fri")
+                                  ? fri = 'Fri'
+                                  : sat = 'Sat';
+          print("$namaHari = nama hari");
+        }
+        day = "Every ${hariView.join(', ')}";
       }
     });
   }
@@ -169,7 +197,7 @@ class _AlarmEventState extends State<AlarmEvent> {
                                   now.month,
                                   now.day,
                                   int.parse(widget.Hour),
-                                  int.parse(widget.Minutes)); 
+                                  int.parse(widget.Minutes));
 
                               if (now.isAfter(scheduledTime)) {
                                 scheduledTime =
@@ -189,6 +217,133 @@ class _AlarmEventState extends State<AlarmEvent> {
                               );
                               print('Setiap Hari');
                             } else {
+                              if (sun.isNotEmpty) {
+                                if (DateFormat("EEE").format(DateTime.now()) ==
+                                    'Sun') {
+                                  String tanggalSekarang =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now());
+                                  var Merge =
+                                      '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+
+                                  Duration JadwalAlarm = DateTime.parse(Merge)
+                                      .difference(DateTime.now());
+
+                                  await Workmanager().registerOneOffTask(
+                                      widget.ID.toString(), widget.Title,
+                                      initialDelay: JadwalAlarm);
+
+                                  print('ya Sun');
+                                }
+                              } else if (mon.isNotEmpty) {
+                                if (DateFormat("EEE").format(DateTime.now()) ==
+                                    'Mon') {
+                                  String tanggalSekarang =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now());
+                                  var Merge =
+                                      '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+
+                                  Duration JadwalAlarm = DateTime.parse(Merge)
+                                      .difference(DateTime.now());
+
+                                  await Workmanager().registerOneOffTask(
+                                      widget.ID.toString(), widget.Title,
+                                      initialDelay: JadwalAlarm);
+
+                                  print('ya Mon');
+                                }
+                              } else if (tue.isNotEmpty) {
+                                if (DateFormat("EEE").format(DateTime.now()) ==
+                                    'Tue') {
+                                  String tanggalSekarang =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now());
+                                  var Merge =
+                                      '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+
+                                  Duration JadwalAlarm = DateTime.parse(Merge)
+                                      .difference(DateTime.now());
+
+                                  await Workmanager().registerOneOffTask(
+                                      widget.ID.toString(), widget.Title,
+                                      initialDelay: JadwalAlarm);
+
+                                  print('ya Tue');
+                                }
+                              } else if (wed.isNotEmpty) {
+                                if (DateFormat("EEE").format(DateTime.now()) ==
+                                    'Wed') {
+                                  String tanggalSekarang =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now());
+                                  var Merge =
+                                      '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+
+                                  Duration JadwalAlarm = DateTime.parse(Merge)
+                                      .difference(DateTime.now());
+
+                                  await Workmanager().registerOneOffTask(
+                                      widget.ID.toString(), widget.Title,
+                                      initialDelay: JadwalAlarm);
+
+                                  print('ya Wed');
+                                }
+                              } else if (thu.isNotEmpty) {
+                                if (DateFormat("EEE").format(DateTime.now()) ==
+                                    'Thu') {
+                                  String tanggalSekarang =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now());
+                                  var Merge =
+                                      '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+
+                                  Duration JadwalAlarm = DateTime.parse(Merge)
+                                      .difference(DateTime.now());
+
+                                  await Workmanager().registerOneOffTask(
+                                      widget.ID.toString(), widget.Title,
+                                      initialDelay: JadwalAlarm);
+
+                                  print('ya Thu');
+                                }
+                              } else if (fri.isNotEmpty) {
+                                if (DateFormat("EEE").format(DateTime.now()) ==
+                                    'Fri') {
+                                  String tanggalSekarang =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now());
+                                  var Merge =
+                                      '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+
+                                  Duration JadwalAlarm = DateTime.parse(Merge)
+                                      .difference(DateTime.now());
+
+                                  await Workmanager().registerOneOffTask(
+                                      widget.ID.toString(), widget.Title,
+                                      initialDelay: JadwalAlarm);
+
+                                  print('ya Fri');
+                                }
+                              } else {
+                                if (DateFormat("EEE").format(DateTime.now()) ==
+                                    'Sat') {
+                                  String tanggalSekarang =
+                                      DateFormat('yyyy-MM-dd')
+                                          .format(DateTime.now());
+                                  var Merge =
+                                      '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+
+                                  Duration JadwalAlarm = DateTime.parse(Merge)
+                                      .difference(DateTime.now());
+
+                                  await Workmanager().registerOneOffTask(
+                                      widget.ID.toString(), widget.Title,
+                                      initialDelay: JadwalAlarm);
+
+                                  print('ya Sat');
+                                }
+                              }
                               print('Tidak Setiap Hari');
                             }
                             print('tidak Tanggal');

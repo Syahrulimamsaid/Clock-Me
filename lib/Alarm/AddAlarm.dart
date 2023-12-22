@@ -4,13 +4,25 @@ import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
 import 'package:clock_me/Alarm/Model/Days.dart';
 import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
 class AddAlarmPage extends StatefulWidget {
-  const AddAlarmPage({
-    super.key,
-  });
+  bool StatusAdd;
+  int? Id;
+  String? Title;
+  String? Days;
+  int? Hours;
+  int? Minutes;
+
+  AddAlarmPage(
+      {required this.StatusAdd,
+      this.Title,
+      this.Days,
+      this.Hours,
+      this.Id,
+      this.Minutes});
 
   @override
   State<AddAlarmPage> createState() => _AddAlarmPageState();
@@ -19,7 +31,6 @@ class AddAlarmPage extends StatefulWidget {
 class _AddAlarmPageState extends State<AddAlarmPage> {
   FixedExtentScrollController controllerHours = FixedExtentScrollController();
   FixedExtentScrollController controllerMinutes = FixedExtentScrollController();
-  FixedExtentScrollController controllerAmPm = FixedExtentScrollController();
   TextEditingController TitleController = TextEditingController();
 
   String HoursSelect = '00';
@@ -55,41 +66,106 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
         Navigator.pop(context);
       } catch (e) {
-        print("gagal");
+        print("gagal insert");
+      }
+    }
+  }
+
+  void UpdateData() async {
+    if (TitleController.text.isEmpty) {
+      FocusScope.of(context).requestFocus(Focus);
+    } else {
+      try {
+        final UpdateData = await AlarmQueryExecute.Update(widget.Id!,
+            TitleController.text, HoursSelect, MinutesSelect, DaysInsert, 'On');
+
+        Navigator.pop(context);
+      } catch (e) {
+        print("gagal update");
       }
     }
   }
 
   void ViewSelectDays() {
-    List<String> selectedDays = [];
+    if (widget.StatusAdd) {
+      List<String> selectedDays = [];
 
-    if (Sun) selectedDays.add("Sun");
-    if (Mon) selectedDays.add("Mon");
-    if (Tue) selectedDays.add("Tue");
-    if (Wed) selectedDays.add("Wed");
-    if (Thu) selectedDays.add("Thu");
-    if (Fri) selectedDays.add("Fri");
-    if (Sat) selectedDays.add("Sat");
+      if (Sun) selectedDays.add("Sun");
+      if (Mon) selectedDays.add("Mon");
+      if (Tue) selectedDays.add("Tue");
+      if (Wed) selectedDays.add("Wed");
+      if (Thu) selectedDays.add("Thu");
+      if (Fri) selectedDays.add("Fri");
+      if (Sat) selectedDays.add("Sat");
 
-    if (selectedDays.isEmpty) {
+      if (selectedDays.isEmpty) {
+        Days = 'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
+        DaysInsert = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+      } else {
+        if (selectedDays.length == 7) {
+          Days = 'Every Day';
+          DaysInsert = 'Every Day';
+        } else {
+          Days = "Every ${selectedDays.join(', ')}";
+          DaysInsert = "${selectedDays.join(' ')}";
+        }
+      }
+    } else {
+      Days = widget.Days!;
+    }
+  }
+
+  void CekStatusAdd() {
+    if (widget.StatusAdd) {
       Days = 'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
       DaysInsert = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
     } else {
-      if (selectedDays.length == 7) {
-        Days = 'Every Day';
-        DaysInsert = 'Every Day';
+      Days = widget.Days!;
+      DaysInsert = widget.Days!;
+      TitleController.text = widget.Title!;
+      controllerHours = FixedExtentScrollController(initialItem: widget.Hours!);
+      controllerMinutes =
+          FixedExtentScrollController(initialItem: widget.Minutes!);
+
+      HoursSelect =
+          (widget.Hours! < 10) ? "0${widget.Hours}" : widget.Hours.toString();
+      MinutesSelect = (widget.Minutes! < 10)
+          ? "0${widget.Minutes}"
+          : widget.Minutes!.toString();
+
+      if (isDateFormat(widget.Days!, 'yyyy-MM-dd')) {
+        Days = 'Tomorrow-' + FormatDate(DateTime.parse(widget.Days!));
+      } else if (widget.Days == 'Every Day') {
+        Days = widget.Days!;
       } else {
-        Days = "Every ${selectedDays.join(', ')}";
-        DaysInsert = "Every ${selectedDays.join(', ')}";
+        List<String> hariView = widget.Days!.split(' ');
+        Days = "Every ${hariView.join(', ')}";
       }
+    }
+  }
+
+  bool isDateFormat(String input, String format) {
+    try {
+      DateTime? parsedDateTime = DateTime.tryParse(input);
+
+      if (parsedDateTime != null) {
+        print('Format tanggal sesuai: $input sesuai dengan pola $format');
+        return true;
+      } else {
+        print(
+            'Format tanggal tidak sesuai: $input tidak sesuai dengan pola $format');
+        return false;
+      }
+    } catch (e) {
+      print('Exception: $e');
+      return false;
     }
   }
 
   @override
   void initState() {
     super.initState();
-    Days = 'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
-    DaysInsert = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+    CekStatusAdd();
     TitleController.addListener(AutoFocusTitle);
   }
 
@@ -365,7 +441,9 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       ),
                     ),
                     Text(
-                      " $DaysInsert  $HoursSelect : $MinutesSelect",
+                      (widget.StatusAdd)
+                          ? DaysInsert + "   " + Days
+                          : "$HoursSelect : $MinutesSelect || $DaysInsert",
                       style: TextStyle(fontSize: 30),
                     )
                   ],
@@ -400,7 +478,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       child: InkWell(
                         borderRadius: BorderRadius.circular(100),
                         onTap: () {
-                          InsertData();
+                          (widget.StatusAdd) ? InsertData() : UpdateData();
                         },
                         child: Center(
                           child: Text("Save",

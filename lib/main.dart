@@ -28,17 +28,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-
-  String hari = "Senin Selasa Rabu";
-
-  // Memisahkan string menjadi list menggunakan spasi sebagai pemisah
-  List<String> daftarHari = hari.split(' ');
-
-  // Menampilkan hasil pemisahan
-  for (String namaHari in daftarHari) {
-    print("Hari: $namaHari");
-  }
-
   runApp(const MainApp());
 }
 
@@ -53,3 +42,4 @@ class MainApp extends StatelessWidget {
     );
   }
 }
+  
