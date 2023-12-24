@@ -80,24 +80,6 @@ class _AlarmPageState extends State<AlarmPage> {
     );
   }
 
-  bool isDateFormat(String input, String format) {
-    try {
-      DateTime? parsedDateTime = DateTime.tryParse(input);
-
-      if (parsedDateTime != null) {
-        print('Format tanggal sesuai: $input sesuai dengan pola $format');
-        return true;
-      } else {
-        print(
-            'Format tanggal tidak sesuai: $input tidak sesuai dengan pola $format');
-        return false;
-      }
-    } catch (e) {
-      print('Exception: $e');
-      return false;
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -122,21 +104,6 @@ class _AlarmPageState extends State<AlarmPage> {
                     } else if (snapshot.hasData) {
                       return ListView(
                         children: snapshot.data!.map((data) {
-                          if (isDateFormat(data.days, 'yyyy-MM-dd')) {
-                            DateTime dateFromData = DateTime.parse(
-                                '${data.days} ${data.hour}:${data.minutes}');
-                            DateTime DateNow = DateTime.parse(
-                                DateFormat('yyyy-MM-dd HH:mm')
-                                    .format(DateTime.now()));
-                            if (dateFromData.isAfter(DateNow)) {
-                              isSwitched = true;
-                            } else {
-                              isSwitched = false;
-                            }
-                          } else {
-                            isSwitched = true;
-                          }
-
                           return AlarmEvent(
                             ID: data.id,
                             Title: data.name,
@@ -157,6 +124,7 @@ class _AlarmPageState extends State<AlarmPage> {
                                           Minutes: int.parse(data.minutes),
                                         )),
                               );
+                              _handleRefresh();
                             },
                             OnLongPress: () async {
                               await Navigator.of(context)
@@ -166,11 +134,6 @@ class _AlarmPageState extends State<AlarmPage> {
                               )));
                               _handleRefresh();
                             },
-                            isSwitched: (isSwitched)
-                                ? (data.status == 'On')
-                                    ? true
-                                    : false
-                                : false,
                           );
                         }).toList(),
                       );
@@ -218,12 +181,5 @@ class _AlarmPageState extends State<AlarmPage> {
         ],
       ),
     ));
-  }
-
-  void printHello() {
-    final DateTime now = DateTime.now();
-    final int isolateId = Isolate.current.hashCode;
-    print(
-        "[$now] Hello, world! YAYAYAYAYAYAYAYA isolate=${isolateId} function='$printHello'");
   }
 }

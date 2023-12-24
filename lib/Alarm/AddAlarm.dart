@@ -86,8 +86,34 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
     }
   }
 
+  void CekJam() {
+    setState(() {
+      DateTime now = DateTime.now();
+
+      var Jam = "${HoursSelect}:${MinutesSelect}";
+
+      Duration MergeJam = DateFormat("HH:mm").parse(Jam).difference(now);
+
+      var JamSekarang = DateFormat("HH:mm").format(now);
+      Duration JamHasil =
+          DateFormat("HH:mm").parse(JamSekarang).difference(now);
+
+      if (MergeJam >= JamHasil) {
+        Days = 'Tomorrow-' + FormatDate(DateTime.now());
+        DaysInsert = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+        print('Jam lebih');
+      } else {
+        Days = 'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
+        DaysInsert = DateFormat('yyyy-MM-dd')
+            .format(DateTime.now().add(Duration(days: 1)))
+            .toString();
+        print('Jam Kurang');
+      }
+    });
+  }
+
   void ViewSelectDays() {
-    if (widget.StatusAdd) {
+    setState(() {
       List<String> selectedDays = [];
 
       if (Sun) selectedDays.add("Sun");
@@ -99,8 +125,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
       if (Sat) selectedDays.add("Sat");
 
       if (selectedDays.isEmpty) {
-        Days = 'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
-        DaysInsert = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+        CekJam();
       } else {
         if (selectedDays.length == 7) {
           Days = 'Every Day';
@@ -110,15 +135,12 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
           DaysInsert = "${selectedDays.join(' ')}";
         }
       }
-    } else {
-      Days = widget.Days!;
-    }
+    });
   }
 
   void CekStatusAdd() {
     if (widget.StatusAdd) {
-      Days = 'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
-      DaysInsert = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+      CekJam();
     } else {
       Days = widget.Days!;
       DaysInsert = widget.Days!;
@@ -233,6 +255,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                               value < 10
                                   ? HoursSelect = '0' + value.toString()
                                   : HoursSelect = value.toString();
+
+                              CekJam();
                             });
                           },
                           childDelegate: ListWheelChildBuilderDelegate(
@@ -262,6 +286,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                               value < 10
                                   ? MinutesSelect = '0' + value.toString()
                                   : MinutesSelect = value.toString();
+
+                              CekJam();
                             });
                           },
                           physics: FixedExtentScrollPhysics(),
@@ -440,12 +466,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                             ))),
                       ),
                     ),
-                    Text(
-                      (widget.StatusAdd)
-                          ? DaysInsert + "   " + Days
-                          : "$HoursSelect : $MinutesSelect || $DaysInsert",
-                      style: TextStyle(fontSize: 30),
-                    )
                   ],
                 ),
               ),

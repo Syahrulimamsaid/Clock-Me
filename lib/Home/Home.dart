@@ -179,15 +179,6 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> HandleRefresh() async {
-    await Future.delayed(Duration(seconds: 0.0.toInt()));
-
-    setState(() {
-      ReadData = AlarmQuery().Read();
-      print('yeyeye');
-    });
-  }
-
   void ToAdd() async {
     await Navigator.push(
         context, MaterialPageRoute(builder: (context) => AddAlarmPage(StatusAdd: true,)));
