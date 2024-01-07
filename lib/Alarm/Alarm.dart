@@ -83,7 +83,7 @@ class _AlarmPageState extends State<AlarmPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color.fromARGB(255, 0, 8, 44),
+      backgroundColor: const Color.fromARGB(255, 0, 8, 44),
       body: SafeArea(
         child: Column(
           children: [

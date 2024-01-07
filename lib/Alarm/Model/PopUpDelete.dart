@@ -32,9 +32,9 @@ class _PopUpDeleteState extends State<PopUpDelete> {
       backgroundColor: Colors.transparent,
       body: Center(
         child: Container(
-          padding: EdgeInsets.all(25),
+          padding: const EdgeInsets.all(25),
           decoration: BoxDecoration(
-              color: Color.fromARGB(255, 23, 33, 78),
+              color: const Color.fromARGB(255, 23, 33, 78),
               borderRadius: BorderRadius.circular(20)),
           width: MediaQuery.of(context).size.width * 0.85,
           height: MediaQuery.of(context).size.height * 0.2,

@@ -31,7 +31,7 @@ class NotificationService {
       }
     });
 
-    // await AwesomeNotifications().setListeners(onActionReceivedMethod: onActionReceivedMethod)
+   
   }
 
   static Future<void> showNotification(int ID,

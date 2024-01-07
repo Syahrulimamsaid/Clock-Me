@@ -50,6 +50,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
   FocusNode Focus = FocusNode();
   bool StatusFocus = false;
+  bool StatusDaysSelect = true;
+  // bool StatusDatePicker = false;
 
   final AlarmDatabase = AlarmDb();
   final AlarmQueryExecute = AlarmQuery();
@@ -88,26 +90,32 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
   void CekJam() {
     setState(() {
-      DateTime now = DateTime.now();
+      if (StatusDaysSelect) {
+        DateTime now = DateTime.now();
 
-      var Jam = "${HoursSelect}:${MinutesSelect}";
+        var Jam = "${HoursSelect}:${MinutesSelect}";
 
-      Duration MergeJam = DateFormat("HH:mm").parse(Jam).difference(now);
+        Duration MergeJam = DateFormat("HH:mm").parse(Jam).difference(now);
 
-      var JamSekarang = DateFormat("HH:mm").format(now);
-      Duration JamHasil =
-          DateFormat("HH:mm").parse(JamSekarang).difference(now);
+        var JamSekarang = DateFormat("HH:mm").format(now);
+        Duration JamHasil =
+            DateFormat("HH:mm").parse(JamSekarang).difference(now);
 
-      if (MergeJam >= JamHasil) {
-        Days = 'Tomorrow-' + FormatDate(DateTime.now());
-        DaysInsert = DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
-        print('Jam lebih');
+        if (MergeJam >= JamHasil) {
+          Days = 'Now-' + FormatDate(DateTime.now());
+          DaysInsert =
+              DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+          print('Jam lebih');
+        } else {
+          Days =
+              'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
+          DaysInsert = DateFormat('yyyy-MM-dd')
+              .format(DateTime.now().add(Duration(days: 1)))
+              .toString();
+          print('Jam Kurang');
+        }
       } else {
-        Days = 'Tomorrow-' + FormatDate(DateTime.now().add(Duration(days: 1)));
-        DaysInsert = DateFormat('yyyy-MM-dd')
-            .format(DateTime.now().add(Duration(days: 1)))
-            .toString();
-        print('Jam Kurang');
+        print('CekJamTidakJalan');
       }
     });
   }
@@ -115,16 +123,45 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
   void ViewSelectDays() {
     setState(() {
       List<String> selectedDays = [];
+      List<String> selectedDaysInsert = [];
 
-      if (Sun) selectedDays.add("Sun");
-      if (Mon) selectedDays.add("Mon");
-      if (Tue) selectedDays.add("Tue");
-      if (Wed) selectedDays.add("Wed");
-      if (Thu) selectedDays.add("Thu");
-      if (Fri) selectedDays.add("Fri");
-      if (Sat) selectedDays.add("Sat");
+      if (Sun) {
+        selectedDays.add("Sun");
+        selectedDaysInsert.add("1");
+      }
+
+      if (Mon) {
+        selectedDays.add("Mon");
+        selectedDaysInsert.add("2");
+      }
+
+      if (Tue) {
+        selectedDays.add("Tue");
+        selectedDaysInsert.add("3");
+      }
+
+      if (Wed) {
+        selectedDays.add("Wed");
+        selectedDaysInsert.add("4");
+      }
+
+      if (Thu) {
+        selectedDays.add("Thu");
+        selectedDaysInsert.add("5");
+      }
+
+      if (Fri) {
+        selectedDays.add("Fri");
+        selectedDaysInsert.add("6");
+      }
+
+      if (Sat) {
+        selectedDays.add("Sat");
+        selectedDaysInsert.add("7");
+      }
 
       if (selectedDays.isEmpty) {
+        StatusDaysSelect = true;
         CekJam();
       } else {
         if (selectedDays.length == 7) {
@@ -132,8 +169,9 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
           DaysInsert = 'Every Day';
         } else {
           Days = "Every ${selectedDays.join(', ')}";
-          DaysInsert = "${selectedDays.join(' ')}";
+          DaysInsert = "${selectedDaysInsert.join(' ')}";
         }
+        StatusDaysSelect = false;
       }
     });
   }
@@ -161,7 +199,34 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
         Days = widget.Days!;
       } else {
         List<String> hariView = widget.Days!.split(' ');
-        Days = "Every ${hariView.join(', ')}";
+        List<String> view = [];
+        for (String namaHari in hariView) {
+          if (namaHari == "1") {
+            view.add('Sun');
+            Sun = true;
+          } else if (namaHari == "2") {
+            view.add('Mon');
+            Mon = true;
+          } else if (namaHari == "3") {
+            view.add('Tue');
+            Tue = true;
+          } else if (namaHari == "4") {
+            view.add('Wed');
+            Wed = true;
+          } else if (namaHari == "5") {
+            view.add('Thu');
+            Thu = true;
+          } else if (namaHari == "6") {
+            view.add('Fri');
+            Fri = true;
+          } else {
+            view.add('Sat');
+            Sat = true;
+          }
+          StatusDaysSelect = false;
+          print("$namaHari = nama hari");
+        }
+        Days = "Every ${view.join(', ')}";
       }
     }
   }
@@ -214,14 +279,24 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
       firstDate: DateTime(Year, Mount, Day),
       lastDate: DateTime(2101),
     );
-
-    if (picked != null && picked != selectedDate) {
-      setState(() {
+    setState(() {
+      if (picked != null && picked != selectedDate) {
+        StatusDaysSelect = false;
+        Sun = false;
+        Mon = false;
+        Tue = false;
+        Wed = false;
+        Thu = false;
+        Fri = false;
+        Sat = false;
         selectedDate = picked;
         Days = FormatDate(selectedDate).toString();
         DaysInsert = DateFormat('yyyy-MM-dd').format(selectedDate).toString();
-      });
-    }
+      } else {
+        StatusDaysSelect = true;
+        CekJam();
+      }
+    });
   }
 
   String FormatDate(DateTime date) {

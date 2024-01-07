@@ -68,8 +68,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
 
   Future<void> ControlView() async {
     if (controller != null && OverallList.isNotEmpty) {
-      await controller.
-      scrollTo(
+      await controller.scrollTo(
         index: OverallList.length - 1,
         duration: Duration(seconds: 1),
         curve: Curves.easeInOut,
@@ -134,7 +133,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
       body: SafeArea(
         child: Column(
           children: [
-             TitlePageModel(Title: "Stopwatch"),
+            TitlePageModel(Title: "Stopwatch"),
             Center(
               child: Container(
                 margin: EdgeInsets.fromLTRB(5, 25, 5, 10),

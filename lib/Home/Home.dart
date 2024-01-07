@@ -45,8 +45,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     final List<Widget> PageApp = [
-      AlarmPage(
-      ),
+      AlarmPage(),
       ClockPage(),
       StopwatchPage(),
       TimerPage(),
@@ -181,7 +180,11 @@ class _HomePageState extends State<HomePage> {
 
   void ToAdd() async {
     await Navigator.push(
-        context, MaterialPageRoute(builder: (context) => AddAlarmPage(StatusAdd: true,)));
+        context,
+        MaterialPageRoute(
+            builder: (context) => AddAlarmPage(
+                  StatusAdd: true,
+                )));
     setState(() {
       SelectIndex = 0;
       print('Yes');

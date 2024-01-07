@@ -16,25 +16,18 @@ class AlarmEvent extends StatefulWidget {
   final String Days;
   final String Minutes;
   final String Status;
-  // bool isSwitched;
   final VoidCallback OnTap;
   final VoidCallback OnLongPress;
 
-  AlarmEvent({
-    required this.Title,
-    required this.Days,
-    required this.Hour,
-    required this.ID,
-    required this.Minutes,
-    required this.Status,
-    required this.OnTap,
-    required this.OnLongPress,
-    // required this.isSwitched
-  });
-
-  // void ToggleSwitch() {
-  //   isSwitched = !isSwitched;
-  // }
+  AlarmEvent(
+      {required this.Title,
+      required this.Days,
+      required this.Hour,
+      required this.ID,
+      required this.Minutes,
+      required this.Status,
+      required this.OnTap,
+      required this.OnLongPress});
 
   @override
   State<AlarmEvent> createState() => _AlarmEventState();
@@ -43,14 +36,6 @@ class AlarmEvent extends StatefulWidget {
 class _AlarmEventState extends State<AlarmEvent> {
   final AlarmQueryExecute = AlarmQuery();
   String day = '';
-
-  String sun = '';
-  String mon = '';
-  String tue = '';
-  String wed = '';
-  String thu = '';
-  String fri = '';
-  String sat = '';
 
   bool isSwitched = false;
 
@@ -91,23 +76,24 @@ class _AlarmEventState extends State<AlarmEvent> {
         day = widget.Days;
       } else {
         List<String> hariView = widget.Days.split(' ');
+        List<String> view = [];
         for (String namaHari in hariView) {
-          (namaHari == "Sun")
-              ? sun = 'Sun'
-              : (namaHari == "Mon")
-                  ? mon = 'Mon'
-                  : (namaHari == "Tue")
-                      ? tue = 'Tue'
-                      : (namaHari == "Wed")
-                          ? wed = 'Wed'
-                          : (namaHari == "Thu")
-                              ? thu = 'Thu'
-                              : (namaHari == "Fri")
-                                  ? fri = 'Fri'
-                                  : sat = 'Sat';
+          (namaHari == "1")
+              ? view.add('Sun')
+              : (namaHari == "2")
+                  ? view.add('Mon')
+                  : (namaHari == "3")
+                      ? view.add('Tue')
+                      : (namaHari == "4")
+                          ? view.add('Wed')
+                          : (namaHari == "5")
+                              ? view.add('Thu')
+                              : (namaHari == "6")
+                                  ? view.add('Fri')
+                                  : view.add('Sat');
           print("$namaHari = nama hari");
         }
-        day = "Every ${hariView.join(', ')}";
+        day = "Every ${view.join(', ')}";
       }
     });
   }
@@ -181,180 +167,43 @@ class _AlarmEventState extends State<AlarmEvent> {
 
           print('Setiap Hari');
         } else {
-          if (sun.isNotEmpty) {
-            if (DateFormat("EEE").format(DateTime.now()) == 'Sun') {
-              String tanggalSekarang =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
-              var Merge = '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
+          var now = DateTime.now();
 
-              Duration JadwalAlarm =
-                  DateTime.parse(Merge).difference(DateTime.now());
+          List<String> dataDays = widget.Days.split(" ");
+          List<int> specificDays =
+              dataDays.map((String s) => int.parse(s)).toList();
 
-              NotificationService.showNotification(widget.ID,
-                  Title: widget.Title,
-                  Body: '${widget.Hour} : ${widget.Minutes}',
-                  notificationLayout: NotificationLayout.BigText,
-                  category: NotificationCategory.Alarm,
-                  schedule: Schedule(
-                      details: widget.Title,
-                      time: DateTime.now().add(JadwalAlarm)),
-                  actionButtons: [
-                    NotificationActionButton(
-                        key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
-                  ]);
+          print('Specific Days $specificDays');
+          if (specificDays.contains(now.weekday)) {
+            DateTime scheduledTime = DateTime(now.year, now.month, now.day,
+                int.parse(widget.Hour), int.parse(widget.Minutes));
 
-              print('ya Sun');
+            if (now.isAfter(scheduledTime)) {
+              scheduledTime = scheduledTime.add(Duration(days: 1));
             }
-          } else if (mon.isNotEmpty) {
-            if (DateFormat("EEE").format(DateTime.now()) == 'Mon') {
-              String tanggalSekarang =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
-              var Merge = '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
 
-              Duration JadwalAlarm =
-                  DateTime.parse(Merge).difference(DateTime.now());
+            Duration JadwalSetiapHari = DateTime.parse(scheduledTime.toString())
+                .difference(DateTime.now());
 
-              NotificationService.showNotification(widget.ID,
-                  Title: widget.Title,
-                  Body: '${widget.Hour} : ${widget.Minutes}',
-                  notificationLayout: NotificationLayout.BigText,
-                  category: NotificationCategory.Alarm,
-                  schedule: Schedule(
-                      details: widget.Title,
-                      time: DateTime.now().add(JadwalAlarm)),
-                  actionButtons: [
-                    NotificationActionButton(
-                        key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
-                  ]);
+            NotificationService.showNotification(widget.ID,
+                Title: widget.Title,
+                Body: '${widget.Hour} : ${widget.Minutes}',
+                notificationLayout: NotificationLayout.BigText,
+                category: NotificationCategory.Alarm,
+                schedule: Schedule(
+                    details: widget.Title,
+                    time: DateTime.now().add(JadwalSetiapHari)),
+                actionButtons: [
+                  NotificationActionButton(
+                      key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
+                ]);
 
-              print('ya Mon');
-            }
-          } else if (tue.isNotEmpty) {
-            if (DateFormat("EEE").format(DateTime.now()) == 'Tue') {
-              String tanggalSekarang =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
-              var Merge = '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
-
-              Duration JadwalAlarm =
-                  DateTime.parse(Merge).difference(DateTime.now());
-
-              NotificationService.showNotification(widget.ID,
-                  Title: widget.Title,
-                  Body: '${widget.Hour} : ${widget.Minutes}',
-                  notificationLayout: NotificationLayout.BigText,
-                  category: NotificationCategory.Alarm,
-                  schedule: Schedule(
-                      details: widget.Title,
-                      time: DateTime.now().add(JadwalAlarm)),
-                  actionButtons: [
-                    NotificationActionButton(
-                        key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
-                  ]);
-
-              print('ya Tue');
-            }
-          } else if (wed.isNotEmpty) {
-            if (DateFormat("EEE").format(DateTime.now()) == 'Wed') {
-              String tanggalSekarang =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
-              var Merge = '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
-
-              Duration JadwalAlarm =
-                  DateTime.parse(Merge).difference(DateTime.now());
-
-              NotificationService.showNotification(widget.ID,
-                  Title: widget.Title,
-                  Body: '${widget.Hour} : ${widget.Minutes}',
-                  notificationLayout: NotificationLayout.BigText,
-                  category: NotificationCategory.Alarm,
-                  schedule: Schedule(
-                      details: widget.Title,
-                      time: DateTime.now().add(JadwalAlarm)),
-                  actionButtons: [
-                    NotificationActionButton(
-                        key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
-                  ]);
-
-              print('ya Wed');
-            }
-          } else if (thu.isNotEmpty) {
-            if (DateFormat("EEE").format(DateTime.now()) == 'Thu') {
-              String tanggalSekarang =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
-              var Merge = '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
-
-              Duration JadwalAlarm =
-                  DateTime.parse(Merge).difference(DateTime.now());
-
-              NotificationService.showNotification(widget.ID,
-                  Title: widget.Title,
-                  Body: '${widget.Hour} : ${widget.Minutes}',
-                  notificationLayout: NotificationLayout.BigText,
-                  category: NotificationCategory.Alarm,
-                  schedule: Schedule(
-                      details: widget.Title,
-                      time: DateTime.now().add(JadwalAlarm)),
-                  actionButtons: [
-                    NotificationActionButton(
-                        key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
-                  ]);
-
-              print('ya Thu');
-            }
-          } else if (fri.isNotEmpty) {
-            if (DateFormat("EEE").format(DateTime.now()) == 'Fri') {
-              String tanggalSekarang =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
-              var Merge = '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
-
-              Duration JadwalAlarm =
-                  DateTime.parse(Merge).difference(DateTime.now());
-
-              NotificationService.showNotification(widget.ID,
-                  Title: widget.Title,
-                  Body: '${widget.Hour} : ${widget.Minutes}',
-                  notificationLayout: NotificationLayout.BigText,
-                  category: NotificationCategory.Alarm,
-                  schedule: Schedule(
-                      details: widget.Title,
-                      time: DateTime.now().add(JadwalAlarm)),
-                  actionButtons: [
-                    NotificationActionButton(
-                        key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
-                  ]);
-
-              print('ya Fri');
-            }
-          } else {
-            if (DateFormat("EEE").format(DateTime.now()) == 'Sat') {
-              String tanggalSekarang =
-                  DateFormat('yyyy-MM-dd').format(DateTime.now());
-              var Merge = '$tanggalSekarang ${widget.Hour}:${widget.Minutes}';
-
-              Duration JadwalAlarm =
-                  DateTime.parse(Merge).difference(DateTime.now());
-
-              NotificationService.showNotification(widget.ID,
-                  Title: widget.Title,
-                  Body: '${widget.Hour} : ${widget.Minutes}',
-                  notificationLayout: NotificationLayout.BigText,
-                  category: NotificationCategory.Alarm,
-                  schedule: Schedule(
-                      details: widget.Title,
-                      time: DateTime.now().add(JadwalAlarm)),
-                  actionButtons: [
-                    NotificationActionButton(
-                        key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
-                  ]);
-
-              print('ya Sat');
-            }
+            print('Hari Tertentu');
           }
           print('Tidak Setiap Hari');
         }
         print('tidak Tanggal');
       }
-
       print('y');
     } else {
       print('n');
