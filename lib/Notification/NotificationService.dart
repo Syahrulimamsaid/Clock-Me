@@ -30,22 +30,21 @@ class NotificationService {
         await AwesomeNotifications().requestPermissionToSendNotifications();
       }
     });
-
-   
   }
+
 
   static Future<void> showNotification(int ID,
       {required final String Title,
       required final String Body,
-      required Schedule schedule,
+      required final bool statusSchedule,
+      final Schedule? schedule,
       final String? summary,
       final Map<String, String>? payload,
       final ActionType actionType = ActionType.Default,
       final NotificationLayout notificationLayout = NotificationLayout.Default,
       final NotificationCategory? category,
       final String? bigPicture,
-      final List<NotificationActionButton>? actionButtons,
-      final int? interval}) async {
+      final List<NotificationActionButton>? actionButtons,}) async {
     await AwesomeNotifications().createNotification(
         content: NotificationContent(
             id: ID,
@@ -58,23 +57,27 @@ class NotificationService {
             category: category,
             payload: payload,
             locked: true,
-            autoDismissible: false,
+            autoDismissible: false, 
             fullScreenIntent: true,
             wakeUpScreen: true,
             bigPicture: bigPicture),
         actionButtons: actionButtons,
-        schedule: NotificationCalendar(
-          minute: schedule.time.minute,
-          hour:  schedule.time.hour,
-          day:  schedule.time.day,
-          weekday: schedule.time.weekday,
-          month: schedule.time.month,
-          year: schedule.time.year,
-          preciseAlarm: true,
-          allowWhileIdle: true,
-          timeZone: await AwesomeNotifications.localTimeZoneIdentifier,
-        ));
+        schedule: (statusSchedule)
+            ? NotificationCalendar(
+                minute: schedule!.time.minute,
+                hour: schedule.time.hour,
+                day: schedule.time.day,
+                weekday: schedule.time.weekday,
+                month: schedule.time.month,
+                year: schedule.time.year,
+                preciseAlarm: true,
+                allowWhileIdle: true,
+                timeZone: await AwesomeNotifications.localTimeZoneIdentifier,
+              )
+            : null);
   }
+
+  
 }
 
 class Schedule {

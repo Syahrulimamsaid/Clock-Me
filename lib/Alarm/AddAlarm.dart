@@ -3,8 +3,8 @@ import 'package:clock_me/Alarm/DatabaseAlarm/AlarmModel.dart';
 import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
 import 'package:clock_me/Alarm/Model/Days.dart';
 import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
+import 'package:clock_me/ModelApp/ScrolTime.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -197,6 +197,13 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
         Days = 'Tomorrow-' + FormatDate(DateTime.parse(widget.Days!));
       } else if (widget.Days == 'Every Day') {
         Days = widget.Days!;
+        Sun = true;
+        Mon = true;
+        Tue = true;
+        Wed = true;
+        Thu = true;
+        Fri = true;
+        Sat = true;
       } else {
         List<String> hariView = widget.Days!.split(' ');
         List<String> view = [];
@@ -319,27 +326,18 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
                     Flexible(
-                      flex: 2,
-                      child: ListWheelScrollView.useDelegate(
-                          itemExtent: 70,
-                          physics: FixedExtentScrollPhysics(),
-                          perspective: 0.0005,
+                        flex: 2,
+                        child: ScrollTime(
                           controller: controllerHours,
-                          onSelectedItemChanged: (value) {
-                            setState(() {
-                              value < 10
-                                  ? HoursSelect = '0' + value.toString()
-                                  : HoursSelect = value.toString();
+                          onSelect: (value) {
+                            value < 10
+                                ? HoursSelect = '0' + value.toString()
+                                : HoursSelect = value.toString();
 
-                              CekJam();
-                            });
+                            CekJam();
                           },
-                          childDelegate: ListWheelChildBuilderDelegate(
-                              childCount: 24,
-                              builder: (context, index) {
-                                return TimeDigitHours(index);
-                              })),
-                    ),
+                          childCount: 24,
+                        )),
                     Flexible(
                       flex: 1,
                       child: Text(
@@ -351,27 +349,18 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                       ),
                     ),
                     Flexible(
-                      flex: 2,
-                      child: ListWheelScrollView.useDelegate(
-                          itemExtent: 70,
-                          controller: controllerMinutes,
-                          perspective: 0.0005,
-                          onSelectedItemChanged: (value) {
-                            setState(() {
-                              value < 10
-                                  ? MinutesSelect = '0' + value.toString()
-                                  : MinutesSelect = value.toString();
+                        flex: 2,
+                        child: ScrollTime(
+                          controller: controllerHours,
+                          onSelect: (value) {
+                            value < 10
+                                ? MinutesSelect = '0' + value.toString()
+                                : MinutesSelect = value.toString();
 
-                              CekJam();
-                            });
+                            CekJam();
                           },
-                          physics: FixedExtentScrollPhysics(),
-                          childDelegate: ListWheelChildBuilderDelegate(
-                              childCount: 60,
-                              builder: (context, index) {
-                                return TimeDigitMinutes(index);
-                              })),
-                    ),
+                          childCount: 60,
+                        )),
                   ],
                 ),
               ),
@@ -541,6 +530,10 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                             ))),
                       ),
                     ),
+                    // Text(
+                    //   '$HoursSelect : $MinutesSelect $DaysInsert',
+                    //   style: TextStyle(fontSize: 30, color: Colors.white),
+                    // )
                   ],
                 ),
               ),
@@ -590,45 +583,6 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
               )
             ],
           )),
-        ));
-  }
-
-  Container TimeDigitMinutes(int min) {
-    return Container(
-        margin: EdgeInsets.all(5),
-        child: Text(
-          (min < 10) ? "0" + min.toString() : min.toString(),
-          style: GoogleFonts.poppins(
-              color: Color.fromARGB(255, 247, 230, 2),
-              fontWeight: FontWeight.w700,
-              fontSize: 50),
-          textAlign: TextAlign.justify,
-        ));
-  }
-
-  Container TimeDigitHours(int min) {
-    return Container(
-        margin: EdgeInsets.all(5),
-        child: Text(
-          (min < 10) ? "0" + min.toString() : min.toString(),
-          style: GoogleFonts.poppins(
-              color: Color.fromARGB(255, 247, 230, 2),
-              fontWeight: FontWeight.w700,
-              fontSize: 50),
-          textAlign: TextAlign.justify,
-        ));
-  }
-
-  Container AmPm(bool AmPm) {
-    return Container(
-        margin: EdgeInsets.all(5),
-        child: Text(
-          (AmPm == true) ? "AM" : "PM",
-          style: GoogleFonts.poppins(
-              color: Color.fromARGB(255, 247, 230, 2),
-              fontWeight: FontWeight.w700,
-              fontSize: 50),
-          textAlign: TextAlign.justify,
         ));
   }
 }

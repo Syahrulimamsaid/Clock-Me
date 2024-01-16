@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:clock_me/ModelApp/TitlePage.dart';
-import 'package:clock_me/Stopwatch/Notification.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -15,7 +14,7 @@ class StopwatchPage extends StatefulWidget {
 }
 
 class _StopwatchPageState extends State<StopwatchPage> {
-  NotificationService notificationService = NotificationService();
+  
 
   Stopwatch stopwatch = Stopwatch();
   Stopwatch LapTimes = Stopwatch();
@@ -36,7 +35,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
   @override
   void initState() {
     startTimer();
-    notificationService.initialize();
+
     controller = ItemScrollController();
     super.initState();
   }
@@ -343,14 +342,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
                           stopwatch.start();
                           LapTimes.start();
                           startTimer();
-                          notificationService.showNotification(
-                              "Stopwatch is running", 'Tap to reset or lap'
-                              // '$Minutess' +
-                              //     " : " +
-                              //     '$Seconds' +
-                              //     " . " +
-                              //     '$Miliseconds',
-                              );
+                         
                         } else if (Start == "Stop") {
                           Start = "Resume";
                           Reset = "Reset";
@@ -467,16 +459,4 @@ class _StopwatchPageState extends State<StopwatchPage> {
       ],
     );
   }
-
-  // double calculateTotalHeight(List<String> lapList) {
-  //   double totalHeight = 0;
-  //   for (int i = 0; i < lapList.length; i++) {
-  //     totalHeight += getItemHeight(i);
-  //   }
-  //   return totalHeight;
-  // }
-
-  // double getItemHeight(int index) {
-  //   return 6;
-  // }
 }

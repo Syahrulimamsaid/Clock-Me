@@ -1,3 +1,4 @@
+import 'package:clock_me/AboutUs.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -38,8 +39,14 @@ class _TitlePageModelState extends State<TitlePageModel> {
                     icon: Icon(FontAwesomeIcons.ellipsisVertical,
                         color: const Color.fromARGB(255, 243, 243, 243)),
                     onSelected: (value) {
-                      if (value == 'Item 1') {
-                      } else if (value == 'Item 2') {}
+                      if (value == '1') {
+                      } else if (value == '2') {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => AboutUsPage()),
+                        );
+                      }
                     },
                     itemBuilder: (BuildContext context) {
                       return <PopupMenuEntry<String>>[

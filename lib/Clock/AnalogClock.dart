@@ -15,12 +15,13 @@ class AnalogClock extends CustomPainter {
     var radius = min(centerX, centerY);
 
     //Jam
-    var fillBrush = Paint()..color = Color(0xFF444974);
+    var fillBrush = Paint()..color = Color.fromARGB(255, 23, 33, 78);
     var outlineBrush = Paint()
-      ..color = Color(0xFFEAECFF)
+      ..color = const Color.fromARGB(255, 243, 243, 243)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 14;
-    var centerfillBrush = Paint()..color = Color(0xFFEAECFF);
+    var centerfillBrush = Paint()
+      ..color = const Color.fromARGB(255, 243, 243, 243);
 
     //JarumJam
     var secHandBrush = Paint()
@@ -44,7 +45,7 @@ class AnalogClock extends CustomPainter {
       ..strokeWidth = 16;
 
     var dashBrush = Paint()
-      ..color = Color(0xFFEAECFF)
+      ..color = const Color.fromARGB(255, 243, 243, 243)
       ..style = PaintingStyle.stroke
       ..strokeCap = StrokeCap.round
       ..strokeWidth = 1;

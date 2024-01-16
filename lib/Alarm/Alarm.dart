@@ -11,7 +11,6 @@ import 'package:clock_me/Alarm/Model/PopUpDelete.dart';
 import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
 import 'package:clock_me/ModelApp/TitlePage.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:clock_me/Alarm/Query/AlarmQuery.dart';

@@ -132,6 +132,7 @@ class _AlarmEventState extends State<AlarmEvent> {
             Body: '${widget.Hour} : ${widget.Minutes}',
             notificationLayout: NotificationLayout.BigText,
             category: NotificationCategory.Alarm,
+            statusSchedule: true,
             schedule: Schedule(
                 details: widget.Title, time: DateTime.now().add(JadwalAlarm)),
             actionButtons: [
@@ -157,6 +158,7 @@ class _AlarmEventState extends State<AlarmEvent> {
               Body: '${widget.Hour} : ${widget.Minutes}',
               notificationLayout: NotificationLayout.BigText,
               category: NotificationCategory.Alarm,
+              statusSchedule: true,
               schedule: Schedule(
                   details: widget.Title,
                   time: DateTime.now().add(JadwalSetiapHari)),
@@ -190,12 +192,17 @@ class _AlarmEventState extends State<AlarmEvent> {
                 Body: '${widget.Hour} : ${widget.Minutes}',
                 notificationLayout: NotificationLayout.BigText,
                 category: NotificationCategory.Alarm,
+                statusSchedule: true,
                 schedule: Schedule(
                     details: widget.Title,
                     time: DateTime.now().add(JadwalSetiapHari)),
                 actionButtons: [
                   NotificationActionButton(
-                      key: 'Dismiss', label: 'Dismiss', autoDismissible: true)
+                      key: 'Dismiss', label: 'Dismiss', autoDismissible: true),
+                  // NotificationActionButton(
+                  //   key: 'Snoze',
+                  //   label: 'Snoze',
+                  // )
                 ]);
 
             print('Hari Tertentu');
