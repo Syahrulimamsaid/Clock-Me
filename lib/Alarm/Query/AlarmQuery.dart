@@ -1,14 +1,14 @@
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmModel.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/AlarmModel.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/Database.dart';
 
 class AlarmQuery {
   final TableAlarm = 'alarm';
   Future<int> Insert(String name, String hour, String minutes, String days,
-      String status) async {
+      String status, String ket) async {
     final database = await DatabaseService().GetDatabase;
     return await database.rawInsert(
-        '''INSERT INTO $TableAlarm (name, hour, minutes, days, status) VALUES (?,?,?,?,?)
-''', [name, hour, minutes, days, status]);
+        '''INSERT INTO $TableAlarm (name, hour, minutes, days, status, ket) VALUES (?,?,?,?,?,?)
+''', [name, hour, minutes, days, status, ket]);
   }
 
   Future<List<AlarmModelData>> Read() async {
@@ -28,13 +28,13 @@ class AlarmQuery {
   }
 
   Future<void> Update(int id, String name, String hour, String minutes,
-      String days, String status) async {
+      String days, String status, String ket) async {
     final database = await DatabaseService().GetDatabase;
 
     await database.rawUpdate('''
     UPDATE $TableAlarm 
-    SET name = ?, hour = ?, minutes = ?, days = ?, status = ? 
+    SET name = ?, hour = ?, minutes = ?, days = ?, status = ?, ket = ?
     WHERE id = ?
-  ''', [name, hour, minutes, days, status, id]);
+  ''', [name, hour, minutes, days, status, ket, id]);
   }
 }

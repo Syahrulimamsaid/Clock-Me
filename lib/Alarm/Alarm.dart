@@ -1,21 +1,12 @@
-import 'dart:isolate';
 
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
-import 'package:clock_me/Alarm/AddAlarm.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmDb.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmModel.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
-import 'package:clock_me/Alarm/DetailAlarm.dart';
-import 'package:clock_me/Alarm/Model/AlarmEventModel.dart';
-import 'package:clock_me/Alarm/Model/PopUpDelete.dart';
-import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
-import 'package:clock_me/ModelApp/TitlePage.dart';
+import 'package:Clock_Me/Alarm/AddAlarm.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/AlarmModel.dart';
+import 'package:Clock_Me/Alarm/Model/AlarmEventModel.dart';
+import 'package:Clock_Me/Alarm/Model/PopUpDelete.dart';
+import 'package:Clock_Me/Alarm/Query/AlarmQuery.dart';
+import 'package:Clock_Me/ModelApp/TitlePage.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
-import 'package:intl/intl.dart';
-import 'package:workmanager/workmanager.dart';
 
 class AlarmPage extends StatefulWidget {
   // final String? Status;
@@ -110,6 +101,7 @@ class _AlarmPageState extends State<AlarmPage> {
                             Hour: data.hour,
                             Minutes: data.minutes,
                             Status: data.status,
+                            Ket: data.ket,
                             OnTap: () async {
                               await Navigator.push(
                                 context,
@@ -170,7 +162,7 @@ class _AlarmPageState extends State<AlarmPage> {
             margin: EdgeInsets.only(top: 10),
             child: Text(
               Tulisan,
-              style: TextStyle(
+              style:  const TextStyle(
                   fontSize: 15,
                   color: Colors.grey,
                   fontWeight: FontWeight.w700),

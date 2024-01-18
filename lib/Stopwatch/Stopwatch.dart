@@ -1,8 +1,7 @@
 import 'dart:async';
 
-import 'package:clock_me/ModelApp/TitlePage.dart';
+import 'package:Clock_Me/ModelApp/TitlePage.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:scrollable_positioned_list/scrollable_positioned_list.dart';
 
@@ -14,8 +13,6 @@ class StopwatchPage extends StatefulWidget {
 }
 
 class _StopwatchPageState extends State<StopwatchPage> {
-  
-
   Stopwatch stopwatch = Stopwatch();
   Stopwatch LapTimes = Stopwatch();
   ItemScrollController controller = ItemScrollController();
@@ -127,12 +124,13 @@ class _StopwatchPageState extends State<StopwatchPage> {
     Miliseconds = (stopwatch.elapsed.inMilliseconds % 1000 ~/ 15 < 10)
         ? "0" + (stopwatch.elapsed.inMilliseconds % 1000 ~/ 15).toString()
         : (stopwatch.elapsed.inMilliseconds % 1000 ~/ 15).toString();
+        
     return Scaffold(
       backgroundColor: Color.fromARGB(255, 0, 8, 44),
       body: SafeArea(
         child: Column(
           children: [
-            TitlePageModel(Title: "Stopwatch"),
+            const TitlePageModel(Title: "Stopwatch"),
             Center(
               child: Container(
                 margin: EdgeInsets.fromLTRB(5, 25, 5, 10),
@@ -184,17 +182,17 @@ class _StopwatchPageState extends State<StopwatchPage> {
               width: MediaQuery.of(context).size.width,
               height: MediaQuery.of(context).size.height * 0.4,
               child: (Status == false)
-                  ? SizedBox()
+                  ? const SizedBox()
                   : Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Container(
+                        SizedBox(
                           // color: Colors.blue,
                           height: MediaQuery.of(context).size.height * 0.05,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceAround,
                             children: [
-                              Container(
+                              SizedBox(
                                 // color: Colors.purple,
                                 width: MediaQuery.of(context).size.width * 0.14,
                                 child: Center(
@@ -209,7 +207,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
                                   ),
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 // color: Colors.green,
                                 width: MediaQuery.of(context).size.width * 0.23,
                                 child: Text(
@@ -222,7 +220,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
                                   textAlign: TextAlign.center,
                                 ),
                               ),
-                              Container(
+                              SizedBox(
                                 // color: Colors.green,
                                 width: MediaQuery.of(context).size.width * 0.23,
                                 child: Text(
@@ -270,7 +268,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceAround,
                                     children: [
-                                      Container(
+                                      SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.14,
@@ -285,7 +283,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
                                           ),
                                         ),
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.23,
@@ -302,7 +300,7 @@ class _StopwatchPageState extends State<StopwatchPage> {
                                               fontSize: 16.5),
                                         ),
                                       ),
-                                      Container(
+                                      SizedBox(
                                         width:
                                             MediaQuery.of(context).size.width *
                                                 0.23,
@@ -342,7 +340,6 @@ class _StopwatchPageState extends State<StopwatchPage> {
                           stopwatch.start();
                           LapTimes.start();
                           startTimer();
-                         
                         } else if (Start == "Stop") {
                           Start = "Resume";
                           Reset = "Reset";
@@ -363,8 +360,8 @@ class _StopwatchPageState extends State<StopwatchPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           color: (stopwatch.isRunning)
-                              ? Color.fromARGB(255, 177, 23, 11)
-                              : Color.fromARGB(255, 0, 86, 245)),
+                              ? const Color.fromARGB(255, 177, 23, 11)
+                              : const Color.fromARGB(255, 0, 86, 245)),
                       child: Center(
                         child: Text(
                           Start,
@@ -404,8 +401,8 @@ class _StopwatchPageState extends State<StopwatchPage> {
                       decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(100),
                           color: (Start == "Start")
-                              ? Color.fromARGB(255, 87, 87, 87)
-                              : Color.fromARGB(255, 110, 110, 110)),
+                              ? const Color.fromARGB(255, 87, 87, 87)
+                              : const Color.fromARGB(255, 110, 110, 110)),
                       child: Center(
                         child: Text(
                           Reset,

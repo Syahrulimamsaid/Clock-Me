@@ -1,9 +1,7 @@
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmDb.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmModel.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
-import 'package:clock_me/Alarm/Model/Days.dart';
-import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
-import 'package:clock_me/ModelApp/ScrolTime.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/AlarmDb.dart';
+import 'package:Clock_Me/Alarm/Model/Days.dart';
+import 'package:Clock_Me/Alarm/Query/AlarmQuery.dart';
+import 'package:Clock_Me/ModelApp/ScrolTime.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
@@ -38,6 +36,8 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
   String Days = '';
   String DaysInsert = '';
+  String Ket = '';
+
   bool Sun = false;
   bool Mon = false;
   bool Tue = false;
@@ -64,7 +64,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
     } else {
       try {
         final InsertData = await AlarmQueryExecute.Insert(
-            TitleController.text, HoursSelect, MinutesSelect, DaysInsert, 'On');
+            TitleController.text, HoursSelect, MinutesSelect, DaysInsert, 'On',Ket);
 
         Navigator.pop(context);
       } catch (e) {
@@ -79,7 +79,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
     } else {
       try {
         final UpdateData = await AlarmQueryExecute.Update(widget.Id!,
-            TitleController.text, HoursSelect, MinutesSelect, DaysInsert, 'On');
+            TitleController.text, HoursSelect, MinutesSelect, DaysInsert, 'On',Ket);
 
         Navigator.pop(context);
       } catch (e) {
@@ -105,6 +105,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
           Days = 'Now-' + FormatDate(DateTime.now());
           DaysInsert =
               DateFormat('yyyy-MM-dd').format(DateTime.now()).toString();
+          Ket = 'Now-';
           print('Jam lebih');
         } else {
           Days =
@@ -112,6 +113,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
           DaysInsert = DateFormat('yyyy-MM-dd')
               .format(DateTime.now().add(Duration(days: 1)))
               .toString();
+          Ket = 'Tomorrow-';
           print('Jam Kurang');
         }
       } else {
@@ -195,6 +197,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
 
       if (isDateFormat(widget.Days!, 'yyyy-MM-dd')) {
         Days = 'Tomorrow-' + FormatDate(DateTime.parse(widget.Days!));
+        Ket = 'Tomorrow-';
       } else if (widget.Days == 'Every Day') {
         Days = widget.Days!;
         Sun = true;
@@ -319,7 +322,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
               child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width,
                 height: MediaQuery.of(context).size.height * 0.25,
                 child: Row(
@@ -507,28 +510,25 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                         ],
                       ),
                     ),
-                    Container(
-                      child: TextField(
-                        maxLength: 20,
-                        focusNode: Focus,
-                        controller: TitleController,
-                        style: GoogleFonts.poppins(
-                            color: const Color.fromARGB(255, 243, 243, 243),
-                            fontWeight: FontWeight.w600,
-                            fontSize: 17),
-                        decoration: InputDecoration(
-                            hintText: "Alarm Name",
-                            hintStyle: TextStyle(color: Colors.grey),
-                            counterStyle: TextStyle(
-                              color: const Color.fromARGB(255, 243, 243, 243),
-                            ),
-                            enabledBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(color: Colors.white)),
-                            focusedBorder: UnderlineInputBorder(
-                                borderSide: BorderSide(
-                              color: const Color.fromARGB(255, 255, 241, 38),
-                            ))),
-                      ),
+                    TextField(
+                      maxLength: 20,
+                      focusNode: Focus,
+                      controller: TitleController,
+                      style: GoogleFonts.poppins(
+                          color: const Color.fromARGB(255, 243, 243, 243),
+                          fontWeight: FontWeight.w600,
+                          fontSize: 17),
+                      decoration: const InputDecoration(
+                          hintText: "Alarm Name",
+                          hintStyle: TextStyle(color: Colors.grey),
+                          counterStyle: TextStyle(
+                            color: Color.fromARGB(255, 243, 243, 243),
+                          ),
+                          enabledBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(color: Colors.white)),
+                          focusedBorder: UnderlineInputBorder(
+                              borderSide: BorderSide(
+                                  color: Color.fromARGB(255, 255, 241, 38)))),
                     ),
                     // Text(
                     //   '$HoursSelect : $MinutesSelect $DaysInsert',
@@ -544,7 +544,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.25,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(100),
@@ -561,7 +561,7 @@ class _AddAlarmPageState extends State<AddAlarmPage> {
                         ),
                       ),
                     ),
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.25,
                       child: InkWell(
                         borderRadius: BorderRadius.circular(100),

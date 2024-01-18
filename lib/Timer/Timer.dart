@@ -1,8 +1,7 @@
-import 'package:clock_me/ModelApp/ScrolTime.dart';
-import 'package:clock_me/ModelApp/TitlePage.dart';
-import 'package:clock_me/Timer/TimerRun.dart';
+import 'package:Clock_Me/ModelApp/ScrolTime.dart';
+import 'package:Clock_Me/ModelApp/TitlePage.dart';
+import 'package:Clock_Me/Timer/TimerRun.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class TimerPage extends StatefulWidget {

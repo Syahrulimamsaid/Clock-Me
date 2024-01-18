@@ -1,5 +1,3 @@
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmModel.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
 import 'package:sqflite/sqflite.dart';
 
 class AlarmDb {
@@ -16,7 +14,8 @@ class AlarmDb {
           hour TEXT,
           minutes TEXT,
           days TEXT,
-          status TEXT)
+          status TEXT,
+          ket TEXT)
 """);
     }
   }

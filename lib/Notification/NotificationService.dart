@@ -7,7 +7,7 @@ class NotificationService {
       null,
       [
         NotificationChannel(
-            channelKey: 'clock_me',
+            channelKey: 'Clock_Me',
             channelName: 'Clock Me',
             channelDescription: 'Alarm App',
             defaultColor: Colors.purple,
@@ -32,23 +32,24 @@ class NotificationService {
     });
   }
 
-
-  static Future<void> showNotification(int ID,
-      {required final String Title,
-      required final String Body,
-      required final bool statusSchedule,
-      final Schedule? schedule,
-      final String? summary,
-      final Map<String, String>? payload,
-      final ActionType actionType = ActionType.Default,
-      final NotificationLayout notificationLayout = NotificationLayout.Default,
-      final NotificationCategory? category,
-      final String? bigPicture,
-      final List<NotificationActionButton>? actionButtons,}) async {
+  static Future<void> showNotification(
+    int ID, {
+    required final String Title,
+    required final String Body,
+    required final bool statusSchedule,
+    final Schedule? schedule,
+    final String? summary,
+    final Map<String, String>? payload,
+    final ActionType actionType = ActionType.Default,
+    final NotificationLayout notificationLayout = NotificationLayout.Default,
+    final NotificationCategory? category,
+    final String? bigPicture,
+    final List<NotificationActionButton>? actionButtons,
+  }) async {
     await AwesomeNotifications().createNotification(
         content: NotificationContent(
             id: ID,
-            channelKey: 'clock_me',
+            channelKey: 'Clock_Me',
             title: Title,
             body: Body,
             actionType: actionType,
@@ -57,7 +58,7 @@ class NotificationService {
             category: category,
             payload: payload,
             locked: true,
-            autoDismissible: false, 
+            autoDismissible: false,
             fullScreenIntent: true,
             wakeUpScreen: true,
             bigPicture: bigPicture),
@@ -76,8 +77,6 @@ class NotificationService {
               )
             : null);
   }
-
-  
 }
 
 class Schedule {

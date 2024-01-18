@@ -1,8 +1,7 @@
 import 'dart:async';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:clock_me/ModelApp/TitlePage.dart';
-import 'package:clock_me/Notification/NotificationService.dart';
+import 'package:Clock_Me/Notification/NotificationService.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
@@ -186,8 +185,8 @@ class _TimerRunPageState extends State<TimerRunPage> {
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100),
                               color: (Start == 'Stop')
-                                  ? Color.fromARGB(255, 177, 23, 11)
-                                  : Color.fromARGB(255, 0, 86, 245)),
+                                  ? const Color.fromARGB(255, 177, 23, 11)
+                                  : const Color.fromARGB(255, 0, 86, 245)),
                           child: Center(
                             child: Text(
                               Start,
@@ -213,7 +212,7 @@ class _TimerRunPageState extends State<TimerRunPage> {
                           height: MediaQuery.of(context).size.height * 0.06,
                           decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(100),
-                              color: Color.fromARGB(255, 110, 110, 110)),
+                              color: const Color.fromARGB(255, 110, 110, 110)),
                           child: Center(
                             child: Text(
                               Cancel,

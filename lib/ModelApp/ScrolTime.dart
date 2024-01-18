@@ -6,7 +6,8 @@ class ScrollTime extends StatefulWidget {
   Function(int)? onSelect;
   int childCount;
   ScrollTime(
-      {required this.controller,
+      {super.key,
+      required this.controller,
       required this.onSelect,
       required this.childCount});
 
@@ -19,7 +20,7 @@ class _ScrollTimeState extends State<ScrollTime> {
   Widget build(BuildContext context) {
     return ListWheelScrollView.useDelegate(
         itemExtent: 70,
-        physics: FixedExtentScrollPhysics(),
+        physics: const FixedExtentScrollPhysics(),
         perspective: 0.0005,
         controller: widget.controller,
         onSelectedItemChanged: (value) {
@@ -37,11 +38,11 @@ class _ScrollTimeState extends State<ScrollTime> {
 
 Container TimeDigit(int min) {
   return Container(
-      margin: EdgeInsets.all(5),
+      margin: const EdgeInsets.all(5),
       child: Text(
-        (min < 10) ? "0" + min.toString() : min.toString(),
+        (min < 10) ? "0$min" : min.toString(),
         style: GoogleFonts.poppins(
-            color: Color.fromARGB(255, 247, 230, 2),
+            color: const Color.fromARGB(255, 247, 230, 2),
             fontWeight: FontWeight.w700,
             fontSize: 45),
         textAlign: TextAlign.justify,

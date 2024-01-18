@@ -5,6 +5,7 @@ class AlarmModelData {
   String minutes;
   String days;
   String status;
+  String ket;
 
   AlarmModelData(
       {required this.id,
@@ -12,7 +13,8 @@ class AlarmModelData {
       required this.hour,
       required this.minutes,
       required this.days,
-      required this.status});
+      required this.status,
+      required this.ket});
 
   factory AlarmModelData.fromMap(Map<String, dynamic> map) {
     return AlarmModelData(
@@ -21,6 +23,7 @@ class AlarmModelData {
         hour: map['hour'] ?? '',
         minutes: map['minutes'] ?? '',
         days: map['days'] ?? '',
-        status: map['status'] ?? '');
+        status: map['status'] ?? '',
+        ket: map['ket'] ?? '');
   }
 }

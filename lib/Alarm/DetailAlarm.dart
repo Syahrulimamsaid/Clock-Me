@@ -1,4 +1,4 @@
-import 'package:clock_me/ModelApp/TitlePage.dart';
+import 'package:Clock_Me/ModelApp/TitlePage.dart';
 import 'package:flutter/material.dart';
 
 class DetailAlarm extends StatefulWidget {

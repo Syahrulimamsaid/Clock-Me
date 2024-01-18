@@ -1,13 +1,10 @@
-import 'package:android_alarm_manager_plus/android_alarm_manager_plus.dart';
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:clock_me/Alarm/DetailAlarm.dart';
-import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
-import 'package:clock_me/Notification/NotificationService.dart';
+import 'package:Clock_Me/Alarm/Query/AlarmQuery.dart';
+import 'package:Clock_Me/Notification/NotificationService.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
-import 'package:workmanager/workmanager.dart';
 
 class AlarmEvent extends StatefulWidget {
   final String Title;
@@ -16,6 +13,7 @@ class AlarmEvent extends StatefulWidget {
   final String Days;
   final String Minutes;
   final String Status;
+  final String Ket;
   final VoidCallback OnTap;
   final VoidCallback OnLongPress;
 
@@ -26,6 +24,7 @@ class AlarmEvent extends StatefulWidget {
       required this.ID,
       required this.Minutes,
       required this.Status,
+      required this.Ket,
       required this.OnTap,
       required this.OnLongPress});
 
@@ -40,10 +39,10 @@ class _AlarmEventState extends State<AlarmEvent> {
   bool isSwitched = false;
 
   void UpdateData(int id, String name, String hour, String minutes, String days,
-      String status) async {
+      String status, String ket) async {
     try {
-      final UpdateData =
-          await AlarmQueryExecute.Update(id, name, hour, minutes, days, status);
+      final UpdateData = await AlarmQueryExecute.Update(
+          id, name, hour, minutes, days, status, ket);
       // print('berhasil');
     } catch (e) {
       print("gagal");
@@ -71,7 +70,7 @@ class _AlarmEventState extends State<AlarmEvent> {
   void ChangeDate() {
     setState(() {
       if (isDateFormat(widget.Days, 'yyyy-MM-dd')) {
-        day = 'Tomorrow-' + FormatDate(DateTime.parse(widget.Days));
+        day = '${widget.Ket}${FormatDate(DateTime.parse(widget.Days))}';
       } else if (widget.Days == 'Every Day') {
         day = widget.Days;
       } else {
@@ -236,7 +235,7 @@ class _AlarmEventState extends State<AlarmEvent> {
         // padding: EdgeInsets.all(15),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(25),
-          color: Color.fromARGB(255, 23, 33, 78),
+          color: const Color.fromARGB(255, 23, 33, 78),
         ),
         width: MediaQuery.of(context).size.width * 0.9,
         height: MediaQuery.of(context).size.height * 0.18,
@@ -247,7 +246,7 @@ class _AlarmEventState extends State<AlarmEvent> {
             onTap: widget.OnTap,
             onLongPress: widget.OnLongPress,
             borderRadius: BorderRadius.circular(25),
-            splashColor: Color.fromARGB(255, 0, 8, 44),
+            splashColor: const Color.fromARGB(255, 0, 8, 44),
             child: Container(
               padding: EdgeInsets.all(15),
               child: Column(
@@ -261,7 +260,7 @@ class _AlarmEventState extends State<AlarmEvent> {
                       children: [
                         Row(
                           children: [
-                            Icon(
+                            const Icon(
                               FontAwesomeIcons.tags,
                               color: const Color.fromARGB(255, 243, 243, 243),
                             ),
@@ -295,7 +294,8 @@ class _AlarmEventState extends State<AlarmEvent> {
                                     widget.Hour,
                                     widget.Minutes,
                                     widget.Days,
-                                    (value == true) ? 'On' : 'Off');
+                                    (value == true) ? 'On' : 'Off',
+                                    widget.Ket);
                               });
                               DateSet();
                               // DateStatus();
@@ -312,7 +312,7 @@ class _AlarmEventState extends State<AlarmEvent> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            widget.Hour + ' : ' + widget.Minutes,
+                            '${widget.Hour} : ${widget.Minutes}',
                             style: GoogleFonts.poppins(
                                 fontWeight: FontWeight.w800,
                                 color: Color.fromARGB(255, 255, 241, 38),

@@ -1,10 +1,9 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:clock_me/Clock/AnalogClock.dart';
-import 'package:clock_me/ModelApp/TitlePage.dart';
+import 'package:Clock_Me/Clock/AnalogClock.dart';
+import 'package:Clock_Me/ModelApp/TitlePage.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 
@@ -50,7 +49,7 @@ class _ClockPageState extends State<ClockPage> {
       body: SafeArea(
           child: Column(
         children: [
-          TitlePageModel(Title: "Clock"),
+         const  TitlePageModel(Title: "Clock"),
           SizedBox(
             // color: Colors.red,
             width: MediaQuery.of(context).size.width,

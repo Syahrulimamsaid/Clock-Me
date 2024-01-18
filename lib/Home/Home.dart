@@ -1,13 +1,13 @@
-import 'package:clock_me/Alarm/AddAlarm.dart';
-import 'package:clock_me/Alarm/Alarm.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmDb.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmModel.dart';
-import 'package:clock_me/Alarm/DatabaseAlarm/Database.dart';
-import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
-import 'package:clock_me/Clock/Clock.dart';
-import 'package:clock_me/PageBlank.dart';
-import 'package:clock_me/Stopwatch/Stopwatch.dart';
-import 'package:clock_me/Timer/Timer.dart';
+import 'package:Clock_Me/Alarm/AddAlarm.dart';
+import 'package:Clock_Me/Alarm/Alarm.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/AlarmDb.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/AlarmModel.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/Database.dart';
+import 'package:Clock_Me/Alarm/Query/AlarmQuery.dart';
+import 'package:Clock_Me/Clock/Clock.dart';
+import 'package:Clock_Me/PageBlank.dart';
+import 'package:Clock_Me/Stopwatch/Stopwatch.dart';
+import 'package:Clock_Me/Timer/Timer.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -67,14 +67,14 @@ class _HomePageState extends State<HomePage> {
             }
           });
         },
-        child: Icon((SelectIndex != 0) ? Icons.home : Icons.add),
         backgroundColor: Color.fromARGB(255, 247, 230, 2),
         foregroundColor: Color.fromARGB(255, 0, 8, 44),
         elevation: 0,
+        child: Icon((SelectIndex != 0) ? Icons.home : Icons.add),
       ),
       bottomNavigationBar: BottomAppBar(
         notchMargin: 7,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         color: Color.fromARGB(255, 23, 33, 78),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,

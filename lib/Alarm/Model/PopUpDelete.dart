@@ -1,5 +1,5 @@
-import 'package:clock_me/Alarm/DatabaseAlarm/AlarmDb.dart';
-import 'package:clock_me/Alarm/Query/AlarmQuery.dart';
+import 'package:Clock_Me/Alarm/DatabaseAlarm/AlarmDb.dart';
+import 'package:Clock_Me/Alarm/Query/AlarmQuery.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
